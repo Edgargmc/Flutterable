@@ -1,11 +1,5 @@
 import 'dart:async';
-import 'package:Beautix/models/analytics.dart';
-import 'package:Beautix/models/processing.dart';
-import 'package:Beautix/models/user.dart';
-import 'package:Beautix/presentations/messages.dart';
-import 'package:Beautix/theme.dart';
-import 'package:Beautix/utils/geo_utils.dart';
-import 'package:Beautix/utils/get_location_from_ip.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -14,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hack19/models/user.dart';
+import 'package:hack19/utils/geo_utils.dart';
+import 'package:hack19/widget/messages.dart';
 import 'package:location/location.dart';
 
 class Geo extends StatefulWidget {
@@ -150,11 +147,7 @@ class _GeoState extends State<Geo> {
       } else {
         showMessageError(context: context, message: 'error code: ' + error.code + ' error message:' + error.message);
       }
-      if (_center == null) {
-        widget.sendError(message: "geo.dart.getLocation google_maps.getPositionFromIp  call");
-        _center = await getPositionFromIp();
-        widget.sendError(message: "geo.dart.getLocation google_maps.getPositionFromIp  return " + _center.latitude.toString() + ' ' + _center.longitude.toString());
-      }
+
       if (_center == null) {
         _center = LatLng(-34.63340184606355, -58.385113812983036); // buenos aires
       }
@@ -207,11 +200,11 @@ class _GeoState extends State<Geo> {
     return Container(
       height: 44.0,
       width: MediaQuery.of(context).size.width,
-      decoration: AppTheme.buttonDecoration,
+      //decoration: AppTheme.buttonDecoration,
       //padding: EdgeInsets.only(left: 8.0, right: 8.0), // EdgeInsets.only(bottom: 4.0, top: MediaQuery.of(context).size.height - 100.0),
       child: new RaisedButton(
         elevation: 4.0,
-        color: AppTheme.Buttom,
+        // color: AppTheme.Buttom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -223,7 +216,7 @@ class _GeoState extends State<Geo> {
               padding: EdgeInsets.only(left: 14.0, right: 4.0),
               child: Text(
                 "Confirmar mi ubicación",
-                style: AppTheme.TSButtonLabel,
+                // style: AppTheme.TSButtonLabel,
               ),
             ),
           ],
@@ -311,7 +304,7 @@ class _GeoState extends State<Geo> {
       _center = widget.center;
       geoFirePoint = GeoFirePoint(_center.latitude, _center.longitude);
     }
-    Analytics().setCurrentScreen('Geo');
+    // Analytics().setCurrentScreen('Geo');
   }
 
   @override
@@ -336,10 +329,10 @@ class _GeoState extends State<Geo> {
               child: AppBar(
                 automaticallyImplyLeading: false,
                 centerTitle: true,
-                title: AppTheme.logoAppSolo,
+                title: Text('Mi ubicación'),
                 leading: IconButton(
                   //icon: const Icon(FontAwesomeIcons.chevronLeft),
-                  icon: AppTheme.iconBack,
+                  icon: Icon(Icons.arrow_back),
                   onPressed: () {
                     _onWillPop();
                   },
@@ -419,3 +412,18 @@ class _GeoState extends State<Geo> {
     }
   }
 }
+/* ************* */
+
+class Processing {
+  bool _value;
+
+  bool get value => _value; // ignore: unnecessary_getters_setters
+
+  set value(bool value) {
+    // ignore: unnecessary_getters_setters
+    _value = value;
+  }
+
+  Processing(this._value);
+}
+/* *************** */
